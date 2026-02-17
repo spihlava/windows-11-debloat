@@ -341,9 +341,9 @@ try {
     Set-ItemProperty -Path $wuAUPath -Name "ScheduledInstallTime" -Value 3 -Type DWord -Force  # 3 AM
     Write-Host "  [+] Configured automatic security updates (3 AM daily)" -ForegroundColor Green
 
-    # Disable driver updates via Windows Update
-    Set-ItemProperty -Path $wuPolicyPath -Name "ExcludeWUDriversInQualityUpdate" -Value 1 -Type DWord -Force
-    Write-Host "  [+] Disabled automatic driver updates" -ForegroundColor Green
+    # Enable driver updates via Windows Update
+    Remove-ItemProperty -Path $wuPolicyPath -Name "ExcludeWUDriversInQualityUpdate" -ErrorAction SilentlyContinue
+    Write-Host "  [+] Driver updates enabled via Windows Update" -ForegroundColor Green
 
     # Disable automatic restart after updates
     Set-ItemProperty -Path $wuAUPath -Name "NoAutoRebootWithLoggedOnUsers" -Value 1 -Type DWord -Force
@@ -363,8 +363,8 @@ try {
     Set-Service -Name 'BITS' -StartupType Manual -ErrorAction SilentlyContinue
     Write-Host "  [+] Set Windows Update services to Manual" -ForegroundColor Green
 
-    Write-Host "  [✓] Windows Update configured for security updates only" -ForegroundColor Cyan
-    Write-Host "      Feature updates deferred, drivers excluded, auto-restart disabled" -ForegroundColor Gray
+    Write-Host "  [OK] Windows Update configured for security updates only" -ForegroundColor Cyan
+    Write-Host "      Feature updates deferred, drivers enabled, auto-restart disabled" -ForegroundColor Gray
 
 } catch {
     Write-Host "  [-] Error configuring Windows Update: $($_.Exception.Message)" -ForegroundColor Red

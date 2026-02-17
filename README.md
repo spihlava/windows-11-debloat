@@ -99,7 +99,7 @@ Then **restart your computer**. That's it!
 - ✅ Re-enables Windows Update services (if disabled)
 - ✅ Auto-installs security patches daily at 3 AM
 - ✅ Defers feature updates for 365 days
-- ✅ Disables driver updates via Windows Update
+- ✅ Enables driver updates via Windows Update
 - ✅ Prevents automatic restart with logged-on users
 - ✅ Disables P2P update delivery (saves bandwidth)
 

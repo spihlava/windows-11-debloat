@@ -24,7 +24,7 @@ Write-Host "This script will:" -ForegroundColor Yellow
 Write-Host "  1. Re-enable Windows Update services (if disabled)" -ForegroundColor White
 Write-Host "  2. Configure automatic security updates only" -ForegroundColor White
 Write-Host "  3. Defer feature updates for 365 days" -ForegroundColor White
-Write-Host "  4. Disable driver updates via Windows Update" -ForegroundColor White
+Write-Host "  4. Enable driver updates via Windows Update" -ForegroundColor White
 Write-Host "  5. Disable automatic restart with logged-on users" -ForegroundColor White
 Write-Host "  6. Disable P2P update delivery" -ForegroundColor White
 Write-Host "  7. Start Windows Update services" -ForegroundColor White
@@ -102,9 +102,9 @@ try {
     Set-ItemProperty -Path $wuAUPath -Name "ScheduledInstallTime" -Value 3 -Type DWord -Force  # 3 AM
     Write-Host "  [+] Configured automatic security updates (daily at 3 AM)" -ForegroundColor Green
 
-    # Exclude driver updates
-    Set-ItemProperty -Path $wuPolicyPath -Name "ExcludeWUDriversInQualityUpdate" -Value 1 -Type DWord -Force
-    Write-Host "  [+] Disabled automatic driver updates" -ForegroundColor Green
+    # Enable driver updates (keep drivers up to date)
+    Remove-ItemProperty -Path $wuPolicyPath -Name "ExcludeWUDriversInQualityUpdate" -ErrorAction SilentlyContinue
+    Write-Host "  [+] Driver updates enabled via Windows Update" -ForegroundColor Green
 
     # Disable automatic restart with logged-on users
     Set-ItemProperty -Path $wuAUPath -Name "NoAutoRebootWithLoggedOnUsers" -Value 1 -Type DWord -Force
@@ -194,7 +194,7 @@ Write-Host "Windows Update Status:" -ForegroundColor Yellow
 Write-Host "  * Services: Re-enabled and set to Manual" -ForegroundColor Green
 Write-Host "  * Security Updates: Enabled (auto-install)" -ForegroundColor Green
 Write-Host "  * Feature Updates: Deferred for 365 days" -ForegroundColor Green
-Write-Host "  * Driver Updates: Disabled" -ForegroundColor Green
+Write-Host "  * Driver Updates: Enabled" -ForegroundColor Green
 Write-Host "  * Auto-Restart: Disabled with logged-on users" -ForegroundColor Green
 Write-Host "  * P2P Delivery: Disabled" -ForegroundColor Green
 Write-Host ""
