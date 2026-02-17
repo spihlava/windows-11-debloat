@@ -64,7 +64,7 @@ foreach ($serviceName in $updateServices) {
             Write-Host "  [-] Service not found: $serviceName" -ForegroundColor DarkGray
         }
     } catch {
-        Write-Host "  [-] Error configuring $serviceName`: $($_.Exception.Message)" -ForegroundColor Red
+        Write-Host "  [-] Error configuring $serviceName : $($_.Exception.Message)" -ForegroundColor Red
     }
 }
 
@@ -175,7 +175,7 @@ foreach ($serviceName in $updateServices) {
             }
         }
     } catch {
-        Write-Host "  [-] Could not start $serviceName`: $($_.Exception.Message)" -ForegroundColor Yellow
+        Write-Host "  [-] Could not start $serviceName : $($_.Exception.Message)" -ForegroundColor Yellow
         Write-Host "      (Service may start automatically when needed)" -ForegroundColor DarkGray
     }
 }
