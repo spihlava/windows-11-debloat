@@ -255,8 +255,25 @@ foreach ($category in $categories) {
 }
 
 # Save report to file
-$reportPath = "$env:USERPROFILE\Desktop\Windows-Settings-Report.txt"
-$report | Format-Table -AutoSize | Out-String | Out-File -FilePath $reportPath
+$desktopPath = [Environment]::GetFolderPath('Desktop')
+if (-not $desktopPath -or -not (Test-Path $desktopPath)) {
+    # Desktop not found, try creating it
+    $desktopPath = "$env:USERPROFILE\Desktop"
+    if (-not (Test-Path $desktopPath)) {
+        try {
+            New-Item -Path $desktopPath -ItemType Directory -Force | Out-Null
+            Write-Host "`n[i] Created Desktop folder at: $desktopPath" -ForegroundColor Yellow
+        } catch {
+            # Fall back to current directory
+            $desktopPath = $PSScriptRoot
+            if (-not $desktopPath) { $desktopPath = (Get-Location).Path }
+            Write-Host "`n[!] Could not access Desktop, using: $desktopPath" -ForegroundColor Yellow
+        }
+    }
+}
+
+$reportPath = Join-Path $desktopPath "Windows-Settings-Report.txt"
+$report | Format-Table -AutoSize | Out-String | Out-File -FilePath $reportPath -Force
 Write-Host "`nFull report saved to: $reportPath" -ForegroundColor Green
 
 Write-Host "`n================================================" -ForegroundColor Cyan

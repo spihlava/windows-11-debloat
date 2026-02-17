@@ -6,11 +6,12 @@ Comprehensive PowerShell scripts to remove bloatware and optimize Windows 11 for
 
 **New here? Read [START-HERE.txt](START-HERE.txt) first!**
 
-### Simple 2-3 Step Process:
+### Simple 2-4 Step Process:
 
 1. **Run:** `STEP1-Audit-Windows.ps1` (Review your current settings)
 2. **Run:** `STEP2-Optimize-Windows.ps1` (Full optimization - Recommended)
 3. **Optional:** `STEP3-Advanced-Process-Reduction.ps1` (AGGRESSIVE - Minimum processes)
+4. **Optional:** `Enhanced-Privacy-Settings.ps1` (Maximum privacy hardening)
 
 Then **restart your computer**. That's it!
 
@@ -61,32 +62,70 @@ Then **restart your computer**. That's it!
 **Run this AFTER STEP2 and ONLY if you want extreme optimization.**
 **Target: Reduce from 270+ processes to 150-180 processes.**
 
+### 🔒 **Enhanced-Privacy-Settings.ps1** (Optional - Privacy Focused)
+**Comprehensive privacy hardening** - Goes beyond basic privacy settings.
+- 🔒 **17 privacy categories** covered
+- ✅ Complete notification disabling (toast, badges, lock screen)
+- ✅ Camera & microphone globally disabled
+- ✅ App permissions restricted (contacts, calendar, email, files, etc.)
+- ✅ Inking & typing data collection stopped
+- ✅ Windows Spotlight & lock screen tracking disabled
+- ✅ Clipboard & Timeline sync disabled
+- ✅ Wi-Fi Sense & network privacy hardened
+- ✅ **OneDrive Personal removed** (Business version untouched)
+- ✅ SmartScreen filters disabled
+- ✅ Speech recognition & voice activation disabled
+- ✅ Find My Device disabled
+- ✅ Microsoft Edge privacy hardened
+- ✅ Recent files & Jump Lists cleaned
+- ✅ Start Menu & taskbar tracking disabled
+- ⚠️ **Note:** Camera/microphone globally disabled - re-enable per-app if needed
+
+**Run this AFTER STEP2 or STEP3 for maximum privacy.**
+
+### 🔄 **Restore-OneDrive.ps1** (Utility)
+**Restore OneDrive Personal** - Reverses OneDrive removal from Enhanced-Privacy-Settings.
+- ✅ Re-enables OneDrive Personal file sync
+- ✅ Restores OneDrive in File Explorer
+- ✅ Adds OneDrive to startup
+- ✅ Launches OneDrive application
+- ℹ️ OneDrive for Business is never affected
+
+**Use this if you disabled OneDrive and want it back.**
+
 ## 🎯 Which Script Should I Use?
 
-| Feature | Basic | **Ultimate** | **Advanced** | Audit |
-|---------|-------|------------|------------|-------|
-| Remove bloatware | ✅ | ✅ | - | - |
-| Disable startup programs | ✅ | ✅ | - | - |
-| Visual effects | ✅ | ✅ | - | - |
-| Clean temp files | ✅ | ✅ | - | - |
-| Disable services (14) | ✅ | ✅ | - | - |
-| Privacy & telemetry | Partial | ✅ Full | ✅ | - |
-| Notifications | ❌ | ✅ | ✅ | - |
-| Taskbar customization | ❌ | ✅ | - | - |
-| File Explorer tweaks | ❌ | ✅ | - | - |
-| Cortana/Bing disable | ❌ | ✅ | - | - |
-| Gaming optimizations | Partial | ✅ Full | ✅ | - |
-| Power plan optimization | ❌ | ✅ | - | - |
-| Background apps | ❌ | ✅ | ✅ Full | - |
-| Additional services (50+) | ❌ | ❌ | ✅ | - |
-| Scheduled tasks (25+) | ❌ | ❌ | ✅ | - |
-| Windows features | ❌ | ❌ | ✅ | - |
-| Process reduction | ❌ | ❌ | ✅ Max | - |
-| Settings audit | - | - | - | ✅ |
+| Feature | Basic | **Ultimate** | **Advanced** | **Privacy** | Audit |
+|---------|-------|------------|------------|------------|-------|
+| Remove bloatware | ✅ | ✅ | - | - | - |
+| Disable startup programs | ✅ | ✅ | - | - | - |
+| Visual effects | ✅ | ✅ | - | - | - |
+| Clean temp files | ✅ | ✅ | - | - | - |
+| Disable services (14) | ✅ | ✅ | - | - | - |
+| Privacy & telemetry | Partial | ✅ Full | ✅ | ✅ Max | - |
+| Notifications | ❌ | Partial | ✅ | ✅ Complete | - |
+| Taskbar customization | ❌ | ✅ | - | ✅ | - |
+| File Explorer tweaks | ❌ | ✅ | - | ✅ | - |
+| Cortana/Bing disable | ❌ | ✅ | - | - | - |
+| Gaming optimizations | Partial | ✅ Full | ✅ | - | - |
+| Power plan optimization | ❌ | ✅ | - | - | - |
+| Background apps | ❌ | ✅ | ✅ Full | ✅ | - |
+| Additional services (50+) | ❌ | ❌ | ✅ | - | - |
+| Scheduled tasks (25+) | ❌ | ❌ | ✅ | - | - |
+| Windows features | ❌ | ❌ | ✅ | - | - |
+| Process reduction | ❌ | ❌ | ✅ Max | - | - |
+| Camera/Mic permissions | ❌ | ❌ | - | ✅ Denied | - |
+| App permissions | ❌ | ❌ | - | ✅ Restricted | - |
+| OneDrive Personal removal | ❌ | ❌ | - | ✅ | - |
+| SmartScreen disable | ❌ | ❌ | - | ✅ | - |
+| Complete privacy hardening | ❌ | ❌ | - | ✅ | - |
+| Settings audit | - | - | - | - | ✅ |
 
 **Recommendations:**
 - **Most users:** STEP2 Ultimate Optimizer
 - **Maximum performance:** STEP2 + STEP3 Advanced (warning: very aggressive!)
+- **Privacy focused:** STEP2 + Enhanced-Privacy-Settings (maximum privacy)
+- **Everything:** STEP2 + STEP3 + Enhanced-Privacy-Settings (ultimate optimization + privacy)
 
 ## 🚀 Features (Ultimate Optimizer)
 
@@ -201,6 +240,26 @@ Choose ONE:
 - Targets 150-180 process count
 - **Printing remains enabled**
 - May disable other features (bluetooth, remote access, updates, etc.)
+
+### 🔒 Step 4: Enhanced Privacy (Optional)
+**For maximum privacy hardening:**
+```powershell
+.\Enhanced-Privacy-Settings.ps1
+```
+- Run AFTER Step 2 or Step 3
+- 17 comprehensive privacy categories
+- Disables all notifications, tracking, telemetry
+- Removes OneDrive Personal (Business untouched)
+- Restricts app permissions globally
+- Camera/microphone disabled (can re-enable per-app)
+
+### 🔄 Restore OneDrive (If Needed)
+**If you want OneDrive Personal back:**
+```powershell
+.\Restore-OneDrive.ps1
+```
+- Reverses OneDrive removal from Enhanced-Privacy-Settings
+- OneDrive for Business never affected
 
 ### 🔐 Running as Administrator (Recommended)
 
