@@ -50,9 +50,10 @@ Then **restart your computer**. That's it!
 ### ⚡ **STEP3-Advanced-Process-Reduction.ps1** (Optional - AGGRESSIVE)
 **Maximum process reduction** - For advanced users who want absolute minimum processes.
 - ⚠️ **VERY AGGRESSIVE** - Disables many services and features
-- ✅ Disables 50+ additional services (print, bluetooth, remote access, updates, etc.)
+- ✅ Disables 50+ additional services (bluetooth, remote access, updates, sync, etc.)
+- ✅ **Keeps printing enabled** - Print Spooler and print services remain active
 - ✅ Disables 25+ scheduled tasks (telemetry, diagnostics, maintenance)
-- ✅ Disables Windows features (Media Player, Fax, SMB1, IE11)
+- ✅ Disables Windows features (Media Player, SMB1, IE11)
 - ✅ Advanced registry tweaks for background apps
 - ✅ Targets reducing process count to minimum
 - ⚠️ May affect some functionality - only use if you know what you need
@@ -198,7 +199,8 @@ Choose ONE:
 - Run AFTER Step 2
 - Very aggressive optimization
 - Targets 150-180 process count
-- May disable features you use
+- **Printing remains enabled**
+- May disable other features (bluetooth, remote access, updates, etc.)
 
 ### 🔐 Running as Administrator (Recommended)
 
