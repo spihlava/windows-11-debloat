@@ -58,7 +58,7 @@ foreach ($serviceName in $updateServices) {
                 $enabledServices++
             } else {
                 Set-Service -Name $serviceName -StartupType Manual -ErrorAction Stop
-                Write-Host "  [✓] Configured: $serviceName (Manual)" -ForegroundColor Cyan
+                Write-Host "  [OK] Configured: $serviceName (Manual)" -ForegroundColor Cyan
             }
         } else {
             Write-Host "  [-] Service not found: $serviceName" -ForegroundColor DarkGray
@@ -119,7 +119,7 @@ try {
     Set-ItemProperty -Path $deliveryOptPath -Name "DODownloadMode" -Value 0 -Type DWord -Force
     Write-Host "  [+] Disabled P2P update delivery (saves bandwidth)" -ForegroundColor Green
 
-    Write-Host "  [✓] Registry settings configured successfully" -ForegroundColor Cyan
+    Write-Host "  [OK] Registry settings configured successfully" -ForegroundColor Cyan
 
 } catch {
     Write-Host "  [-] Error configuring registry: $($_.Exception.Message)" -ForegroundColor Red
@@ -146,7 +146,7 @@ foreach ($taskPath in $updateTasks) {
                 Write-Host "  [+] Re-enabled: $taskPath" -ForegroundColor Green
                 $enabledTasks++
             } else {
-                Write-Host "  [✓] Already enabled: $taskPath" -ForegroundColor Cyan
+                Write-Host "  [OK] Already enabled: $taskPath" -ForegroundColor Cyan
             }
         }
     } catch {
@@ -171,7 +171,7 @@ foreach ($serviceName in $updateServices) {
                 Write-Host "  [+] Started: $serviceName" -ForegroundColor Green
                 $startedServices++
             } else {
-                Write-Host "  [✓] Already running: $serviceName" -ForegroundColor Cyan
+                Write-Host "  [OK] Already running: $serviceName" -ForegroundColor Cyan
             }
         }
     } catch {
@@ -191,12 +191,12 @@ Write-Host "  Configuration Complete!" -ForegroundColor Green
 Write-Host "================================================" -ForegroundColor Cyan
 Write-Host ""
 Write-Host "Windows Update Status:" -ForegroundColor Yellow
-Write-Host "  ✓ Services: Re-enabled and set to Manual" -ForegroundColor Green
-Write-Host "  ✓ Security Updates: Enabled (auto-install)" -ForegroundColor Green
-Write-Host "  ✓ Feature Updates: Deferred for 365 days" -ForegroundColor Green
-Write-Host "  ✓ Driver Updates: Disabled" -ForegroundColor Green
-Write-Host "  ✓ Auto-Restart: Disabled with logged-on users" -ForegroundColor Green
-Write-Host "  ✓ P2P Delivery: Disabled" -ForegroundColor Green
+Write-Host "  * Services: Re-enabled and set to Manual" -ForegroundColor Green
+Write-Host "  * Security Updates: Enabled (auto-install)" -ForegroundColor Green
+Write-Host "  * Feature Updates: Deferred for 365 days" -ForegroundColor Green
+Write-Host "  * Driver Updates: Disabled" -ForegroundColor Green
+Write-Host "  * Auto-Restart: Disabled with logged-on users" -ForegroundColor Green
+Write-Host "  * P2P Delivery: Disabled" -ForegroundColor Green
 Write-Host ""
 Write-Host "What happens now:" -ForegroundColor Cyan
 Write-Host "  • Security updates will download and install automatically" -ForegroundColor White
