@@ -253,14 +253,23 @@ After running this script, you can expect:
 ## ⚠️ Important Notes
 
 - **Administrator privileges required** for full functionality (especially service optimization)
+- **Automatic System Restore Point** - Each script creates a restore point before making changes
 - **Restart required** after running for all changes to take effect
 - **Safe to use** - Only removes bloatware and optimizes settings
-- **Reversible** - You can reinstall apps from Microsoft Store or re-enable services
+- **Reversible** - You can use System Restore or manually reinstall apps/re-enable services
 - **Windows Search will be disabled** - File search will be slower, but system performance improves
 
 ## 🔄 Reversing Changes
 
 If you need to undo any changes:
+
+### Option 1: System Restore (Recommended)
+1. Press `Win + R`
+2. Type `rstrui.exe` and press Enter
+3. Select the restore point created before optimization
+4. Follow the wizard to restore your system
+
+### Option 2: Manual Reversal
 
 ### Reinstall Apps:
 - Open Microsoft Store
@@ -290,6 +299,7 @@ If you need to undo any changes:
 ## 🛡️ Safety
 
 This script:
+- ✅ **Automatically creates System Restore Point** before making any changes
 - ✅ Only removes bloatware, not system components
 - ✅ Uses safe PowerShell commands
 - ✅ Includes error handling

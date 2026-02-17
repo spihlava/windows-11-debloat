@@ -24,7 +24,26 @@ if (-not $isAdmin) {
     exit 1
 }
 
-Write-Host "Press Enter to continue, or Ctrl+C to cancel..." -ForegroundColor Yellow
+# ============================================
+# CREATE SYSTEM RESTORE POINT
+# ============================================
+Write-Host "`nCreating System Restore Point..." -ForegroundColor Cyan
+
+try {
+    # Enable System Restore if not already enabled
+    Enable-ComputerRestore -Drive "C:\" -ErrorAction SilentlyContinue
+
+    # Create restore point
+    $restorePointName = "Before Advanced Process Reduction - $(Get-Date -Format 'yyyy-MM-dd HH:mm')"
+    Checkpoint-Computer -Description $restorePointName -RestorePointType "MODIFY_SETTINGS" -ErrorAction Stop
+    Write-Host "[✓] Restore point created: $restorePointName" -ForegroundColor Green
+    Write-Host "    You can revert changes later via System Restore" -ForegroundColor Gray
+} catch {
+    Write-Host "[!] Could not create restore point: $($_.Exception.Message)" -ForegroundColor Yellow
+    Write-Host "    Continuing anyway..." -ForegroundColor Gray
+}
+
+Write-Host "`nPress Enter to continue, or Ctrl+C to cancel..." -ForegroundColor Yellow
 Read-Host
 
 $currentProcessCount = (Get-Process).Count
