@@ -37,10 +37,10 @@ Write-Host ""
 Write-Host "`n[1/6] Disabling Additional Services..." -ForegroundColor Yellow
 
 $additionalServicesToDisable = @(
-    # Print & Fax Services
-    'Spooler',                  # Print Spooler
-    'PrintNotify',              # Printer Extensions
-    'Fax',                      # Fax Service
+    # Print & Fax Services (COMMENTED OUT - Keep printing enabled)
+    # 'Spooler',                  # Print Spooler
+    # 'PrintNotify',              # Printer Extensions
+    # 'Fax',                      # Fax Service
 
     # Network Services (if not needed)
     'lmhosts',                  # TCP/IP NetBIOS Helper
@@ -231,11 +231,11 @@ Write-Host "`n[3/6] Disabling Optional Windows Features..." -ForegroundColor Yel
 
 $featuresToDisable = @(
     'WorkFolders-Client',           # Work Folders Client
-    'Printing-XPSServices-Features', # Microsoft XPS Document Writer
-    'FaxServicesClientPackage',     # Windows Fax and Scan
+    # 'Printing-XPSServices-Features', # Microsoft XPS Document Writer (KEEP FOR PRINTING)
+    # 'FaxServicesClientPackage',     # Windows Fax and Scan (KEEP FOR PRINTING)
     'MediaPlayback',                # Windows Media Player (legacy)
     'WindowsMediaPlayer',           # Windows Media Player
-    'Printing-Foundation-Features', # Print and Document Services
+    # 'Printing-Foundation-Features', # Print and Document Services (KEEP FOR PRINTING)
     'SMB1Protocol',                 # SMB 1.0 (security risk)
     'MicrosoftWindowsPowerShellV2', # PowerShell 2.0 (outdated)
     'Internet-Explorer-Optional-amd64' # Internet Explorer 11
