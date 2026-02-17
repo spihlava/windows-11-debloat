@@ -199,11 +199,11 @@ Write-Host "  * Auto-Restart: Disabled with logged-on users" -ForegroundColor Gr
 Write-Host "  * P2P Delivery: Disabled" -ForegroundColor Green
 Write-Host ""
 Write-Host "What happens now:" -ForegroundColor Cyan
-Write-Host "  • Security updates will download and install automatically" -ForegroundColor White
-Write-Host "  • Scheduled to install daily at 3:00 AM" -ForegroundColor White
-Write-Host "  • Feature updates won't install for 1 year" -ForegroundColor White
-Write-Host "  • Your PC won't restart automatically while you're logged in" -ForegroundColor White
-Write-Host "  • You can manually check for updates anytime in Settings" -ForegroundColor White
+Write-Host "  - Security updates will download and install automatically" -ForegroundColor White
+Write-Host "  - Scheduled to install daily at 3:00 AM" -ForegroundColor White
+Write-Host "  - Feature updates won't install for 1 year" -ForegroundColor White
+Write-Host "  - Your PC won't restart automatically while you're logged in" -ForegroundColor White
+Write-Host "  - You can manually check for updates anytime in Settings" -ForegroundColor White
 Write-Host ""
 Write-Host "To check for updates now:" -ForegroundColor Yellow
 Write-Host "  Settings > Windows Update > Check for updates" -ForegroundColor White
