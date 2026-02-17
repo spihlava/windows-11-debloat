@@ -53,7 +53,7 @@ Write-Host ""
 # ============================================
 # STEP 1: Disable Additional Services
 # ============================================
-Write-Host "`n[1/6] Disabling Additional Services..." -ForegroundColor Yellow
+Write-Host "`n[1/7] Disabling Additional Services..." -ForegroundColor Yellow
 
 $additionalServicesToDisable = @(
     # Print & Fax Services (COMMENTED OUT - Keep printing enabled)
@@ -82,12 +82,12 @@ $additionalServicesToDisable = @(
     'BDESVC',                   # BitLocker Drive Encryption
     'WbioSrvc',                 # Windows Biometric Service
 
-    # Update & Maintenance
-    'UsoSvc',                   # Update Orchestrator Service
-    'WaaSMedicSvc',             # Windows Update Medic
-    'wuauserv',                 # Windows Update
-    'BITS',                     # Background Intelligent Transfer
-    'DoSvc',                    # Delivery Optimization
+    # Update & Maintenance (Windows Update kept enabled for security)
+    # 'UsoSvc',                   # Update Orchestrator Service (KEEP for security updates)
+    # 'WaaSMedicSvc',             # Windows Update Medic (KEEP for security updates)
+    # 'wuauserv',                 # Windows Update (KEEP for security updates)
+    # 'BITS',                     # Background Intelligent Transfer (KEEP for updates)
+    'DoSvc',                    # Delivery Optimization (P2P updates - can disable)
     'InstallService',           # Microsoft Store Install Service
 
     # Telemetry & Diagnostics
@@ -166,7 +166,7 @@ Write-Host "  Disabled $($disabledServices) additional services" -ForegroundColo
 # ============================================
 # STEP 2: Disable Scheduled Tasks
 # ============================================
-Write-Host "`n[2/6] Disabling Scheduled Tasks..." -ForegroundColor Yellow
+Write-Host "`n[2/7] Disabling Scheduled Tasks..." -ForegroundColor Yellow
 
 $tasksToDisable = @(
     # Microsoft Compatibility Appraiser
@@ -202,10 +202,10 @@ $tasksToDisable = @(
     # Retail Demo
     '\Microsoft\Windows\RetailDemo\CleanupOfflineContent',
 
-    # Windows Update
-    '\Microsoft\Windows\UpdateOrchestrator\Schedule Scan',
-    '\Microsoft\Windows\UpdateOrchestrator\Schedule Scan Static Task',
-    '\Microsoft\Windows\UpdateOrchestrator\UpdateModelTask',
+    # Windows Update (KEEP scheduled tasks enabled for security updates)
+    # '\Microsoft\Windows\UpdateOrchestrator\Schedule Scan',
+    # '\Microsoft\Windows\UpdateOrchestrator\Schedule Scan Static Task',
+    # '\Microsoft\Windows\UpdateOrchestrator\UpdateModelTask',
 
     # Windows Defender (if using 3rd party AV)
     # '\Microsoft\Windows\Windows Defender\Windows Defender Cache Maintenance',
@@ -246,7 +246,7 @@ Write-Host "  Disabled $($disabledTasks) scheduled tasks" -ForegroundColor Cyan
 # ============================================
 # STEP 3: Disable Windows Features
 # ============================================
-Write-Host "`n[3/6] Disabling Optional Windows Features..." -ForegroundColor Yellow
+Write-Host "`n[3/7] Disabling Optional Windows Features..." -ForegroundColor Yellow
 
 $featuresToDisable = @(
     'WorkFolders-Client',           # Work Folders Client
@@ -279,7 +279,7 @@ Write-Host "  Disabled $($disabledFeatures) Windows features" -ForegroundColor C
 # ============================================
 # STEP 4: Additional Registry Tweaks
 # ============================================
-Write-Host "`n[4/6] Applying Advanced Registry Tweaks..." -ForegroundColor Yellow
+Write-Host "`n[4/7] Applying Advanced Registry Tweaks..." -ForegroundColor Yellow
 
 # Disable Windows Tips
 try {
@@ -317,9 +317,63 @@ try {
 } catch {}
 
 # ============================================
+# STEP 4.5: Configure Windows Update for Security Only
+# ============================================
+Write-Host "`n[5/7] Configuring Windows Update for Security Updates Only..." -ForegroundColor Yellow
+
+try {
+    # Create Windows Update policy path if it doesn't exist
+    $wuPolicyPath = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate"
+    $wuAUPath = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU"
+
+    if (-not (Test-Path $wuPolicyPath)) { New-Item -Path $wuPolicyPath -Force | Out-Null }
+    if (-not (Test-Path $wuAUPath)) { New-Item -Path $wuAUPath -Force | Out-Null }
+
+    # Disable feature updates (only security updates)
+    Set-ItemProperty -Path $wuPolicyPath -Name "DeferFeatureUpdates" -Value 1 -Type DWord -Force
+    Set-ItemProperty -Path $wuPolicyPath -Name "DeferFeatureUpdatesPeriodInDays" -Value 365 -Type DWord -Force
+    Set-ItemProperty -Path $wuPolicyPath -Name "BranchReadinessLevel" -Value 32 -Type DWord -Force
+    Write-Host "  [+] Deferred feature updates for 365 days" -ForegroundColor Green
+
+    # Configure to only install security updates automatically
+    Set-ItemProperty -Path $wuAUPath -Name "AUOptions" -Value 4 -Type DWord -Force  # 4 = Auto download and schedule install
+    Set-ItemProperty -Path $wuAUPath -Name "ScheduledInstallDay" -Value 0 -Type DWord -Force  # 0 = Every day
+    Set-ItemProperty -Path $wuAUPath -Name "ScheduledInstallTime" -Value 3 -Type DWord -Force  # 3 AM
+    Write-Host "  [+] Configured automatic security updates (3 AM daily)" -ForegroundColor Green
+
+    # Disable driver updates via Windows Update
+    Set-ItemProperty -Path $wuPolicyPath -Name "ExcludeWUDriversInQualityUpdate" -Value 1 -Type DWord -Force
+    Write-Host "  [+] Disabled automatic driver updates" -ForegroundColor Green
+
+    # Disable automatic restart after updates
+    Set-ItemProperty -Path $wuAUPath -Name "NoAutoRebootWithLoggedOnUsers" -Value 1 -Type DWord -Force
+    Set-ItemProperty -Path $wuAUPath -Name "AUPowerManagement" -Value 0 -Type DWord -Force
+    Write-Host "  [+] Disabled automatic restart with logged-on users" -ForegroundColor Green
+
+    # Disable Windows Update P2P
+    $deliveryOptPath = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\DeliveryOptimization"
+    if (-not (Test-Path $deliveryOptPath)) { New-Item -Path $deliveryOptPath -Force | Out-Null }
+    Set-ItemProperty -Path $deliveryOptPath -Name "DODownloadMode" -Value 0 -Type DWord -Force
+    Write-Host "  [+] Disabled Windows Update P2P delivery" -ForegroundColor Green
+
+    # Ensure Windows Update services are set to Manual (not disabled)
+    Set-Service -Name 'wuauserv' -StartupType Manual -ErrorAction SilentlyContinue
+    Set-Service -Name 'WaaSMedicSvc' -StartupType Manual -ErrorAction SilentlyContinue
+    Set-Service -Name 'UsoSvc' -StartupType Manual -ErrorAction SilentlyContinue
+    Set-Service -Name 'BITS' -StartupType Manual -ErrorAction SilentlyContinue
+    Write-Host "  [+] Set Windows Update services to Manual" -ForegroundColor Green
+
+    Write-Host "  [✓] Windows Update configured for security updates only" -ForegroundColor Cyan
+    Write-Host "      Feature updates deferred, drivers excluded, auto-restart disabled" -ForegroundColor Gray
+
+} catch {
+    Write-Host "  [-] Error configuring Windows Update: $($_.Exception.Message)" -ForegroundColor Red
+}
+
+# ============================================
 # STEP 5: Stop Runtime Broker Instances
 # ============================================
-Write-Host "`n[5/6] Managing Runtime Broker Processes..." -ForegroundColor Yellow
+Write-Host "`n[6/7] Managing Runtime Broker Processes..." -ForegroundColor Yellow
 
 try {
     # Limit Runtime Broker memory
@@ -333,7 +387,7 @@ try {
 # ============================================
 # STEP 6: Process Summary & Analysis
 # ============================================
-Write-Host "`n[6/6] Analyzing Process Reduction..." -ForegroundColor Yellow
+Write-Host "`n[7/7] Analyzing Process Reduction..." -ForegroundColor Yellow
 
 Start-Sleep -Seconds 3
 

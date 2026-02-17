@@ -51,7 +51,8 @@ Then **restart your computer**. That's it!
 ### ⚡ **STEP3-Advanced-Process-Reduction.ps1** (Optional - AGGRESSIVE)
 **Maximum process reduction** - For advanced users who want absolute minimum processes.
 - ⚠️ **VERY AGGRESSIVE** - Disables many services and features
-- ✅ Disables 50+ additional services (bluetooth, remote access, updates, sync, etc.)
+- ✅ Disables 50+ additional services (bluetooth, remote access, sync, etc.)
+- ✅ **Configures Windows Update for security updates only** - Auto-installs security patches, defers feature updates
 - ✅ **Keeps printing enabled** - Print Spooler and print services remain active
 - ✅ Disables 25+ scheduled tasks (telemetry, diagnostics, maintenance)
 - ✅ Disables Windows features (Media Player, SMB1, IE11)
@@ -92,6 +93,17 @@ Then **restart your computer**. That's it!
 - ℹ️ OneDrive for Business is never affected
 
 **Use this if you disabled OneDrive and want it back.**
+
+### 🔒 **Configure-WindowsUpdate-SecurityOnly.ps1** (Utility)
+**Configure Windows Update for Security Updates Only** - Enables automatic security updates while deferring feature updates.
+- ✅ Re-enables Windows Update services (if disabled)
+- ✅ Auto-installs security patches daily at 3 AM
+- ✅ Defers feature updates for 365 days
+- ✅ Disables driver updates via Windows Update
+- ✅ Prevents automatic restart with logged-on users
+- ✅ Disables P2P update delivery (saves bandwidth)
+
+**Use this to restore Windows Update with security-only configuration after running STEP3, or to configure it on any Windows 11 system.**
 
 ## 🎯 Which Script Should I Use?
 
@@ -163,7 +175,7 @@ Then **restart your computer**. That's it!
 
 ### Network & Updates:
 - ✅ **Disable P2P Updates** - Save bandwidth
-- ✅ **Manual Windows Update** - Full control
+- ✅ **Security Updates Only** - Auto-install security patches, defer feature updates
 
 ## 📋 What Gets Removed
 
@@ -239,7 +251,8 @@ Choose ONE:
 - Very aggressive optimization
 - Targets 150-180 process count
 - **Printing remains enabled**
-- May disable other features (bluetooth, remote access, updates, etc.)
+- **Security updates remain enabled** (feature updates deferred)
+- May disable other features (bluetooth, remote access, sync, etc.)
 
 ### 🔒 Step 4: Enhanced Privacy (Optional)
 **For maximum privacy hardening:**
@@ -259,6 +272,17 @@ Choose ONE:
 .\Restore-OneDrive.ps1
 ```
 - Reverses OneDrive removal from Enhanced-Privacy-Settings
+
+### 🔒 Configure Windows Update for Security Only
+**Enable security updates while blocking feature updates:**
+```powershell
+.\Configure-WindowsUpdate-SecurityOnly.ps1
+```
+- Re-enables Windows Update services if disabled
+- Auto-installs security patches (3 AM daily)
+- Defers feature updates for 365 days
+- Prevents automatic restart with logged-on users
+- **Run this if STEP3 disabled Windows Update and you want it back**
 - OneDrive for Business never affected
 
 ### 🔐 Running as Administrator (Recommended)
