@@ -1,0 +1,133 @@
+========================================
+   WINDOWS 11 OPTIMIZATION GUIDE
+========================================
+
+QUICK START - Follow these 2 simple steps:
+
+========================================
+STEP 1: CHECK YOUR CURRENT SETTINGS
+========================================
+
+Run this script first to see what needs optimization:
+
+    STEP1-Audit-Windows.ps1
+
+This will:
+- Review your current Windows settings
+- Show what's already optimized
+- Identify what needs attention
+- Generate a report on your Desktop
+
+No changes are made - it's just a review!
+
+========================================
+STEP 2: OPTIMIZE YOUR WINDOWS
+========================================
+
+Choose ONE of these two scripts to run:
+
+OPTION A (RECOMMENDED): Full Optimization
+    STEP2-Optimize-Windows.ps1
+
+This includes EVERYTHING:
+- Remove bloatware (30+ apps)
+- Privacy & telemetry controls
+- Disable notifications
+- Customize taskbar
+- Optimize File Explorer
+- Disable Cortana & Bing
+- Gaming optimizations
+- Disable unnecessary services
+- Clean temp files
+- Power plan optimization
+- And much more!
+
+OPTION B: Basic Optimization
+    STEP2-Optimize-Windows-Basic.ps1
+
+This includes only:
+- Remove bloatware apps
+- Disable startup programs
+- Optimize visual effects
+- Clean temp files
+- Disable some services
+
+========================================
+HOW TO RUN THE SCRIPTS
+========================================
+
+METHOD 1: Right-click (Simple)
+1. Right-click the script file
+2. Select "Run with PowerShell"
+
+METHOD 2: PowerShell Admin (Recommended)
+1. Right-click Start button
+2. Select "Terminal (Admin)"
+3. Navigate to this folder:
+   cd C:\Users\Sakari\Projects\bloatware
+4. Run the script:
+   .\STEP1-Audit-Windows.ps1
+   (then after reviewing)
+   .\STEP2-Optimize-Windows.ps1
+
+If you get an execution policy error:
+Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy Bypass -Force
+
+========================================
+EXECUTION ORDER SUMMARY
+========================================
+
+1. Run STEP1-Audit-Windows.ps1 (optional but recommended)
+   -> Review the report it generates
+
+2. Run STEP2-Optimize-Windows.ps1 (full optimization)
+   OR
+   Run STEP2-Optimize-Windows-Basic.ps1 (basic optimization)
+
+3. RESTART YOUR COMPUTER for changes to take effect
+
+DO NOT run both STEP2 scripts - pick one!
+
+========================================
+WHAT'S IN THIS FOLDER
+========================================
+
+START-HERE.txt (this file)
+  -> Read this first!
+
+README.md
+  -> Detailed documentation and feature list
+
+STEP1-Audit-Windows.ps1
+  -> Reviews your current settings (run first)
+
+STEP2-Optimize-Windows.ps1
+  -> Full optimization (RECOMMENDED - run second)
+
+STEP2-Optimize-Windows-Basic.ps1
+  -> Basic optimization (alternative to above)
+
+========================================
+RECOMMENDED WORKFLOW
+========================================
+
+First time:
+1. Run STEP1 to see what needs fixing
+2. Run STEP2 full optimizer
+3. Restart computer
+
+Later (maintenance):
+1. Run STEP1 to check current state
+2. Re-run STEP2 if needed to clean up
+
+========================================
+QUESTIONS?
+========================================
+
+Check README.md for detailed information about:
+- What each script does
+- Complete feature list
+- How to reverse changes
+- Troubleshooting
+
+========================================

@@ -1,15 +1,109 @@
-# Windows 11 Debloat & Optimization Script
+# Windows 11 Optimization Suite
 
-A comprehensive PowerShell script to remove bloatware and optimize Windows 11 for better performance.
+Comprehensive PowerShell scripts to remove bloatware and optimize Windows 11 for maximum performance.
 
-## 🚀 Features
+## 🚀 Quick Start
 
-- ✅ **Remove Bloatware** - Removes unnecessary pre-installed apps (Xbox, Bing, Games, etc.)
-- ✅ **Disable Startup Programs** - Speeds up boot time by disabling non-essential startup items
-- ✅ **Optimize Visual Effects** - Improves performance by reducing animations and visual effects
-- ✅ **Clean Temporary Files** - Frees up disk space by removing temp files and caches
-- ✅ **Disable Unnecessary Services** - Reduces background processes for better performance
-- ✅ **Bonus Optimizations** - Disables telemetry, hibernation, Game DVR, and Windows Search indexing
+**New here? Read [START-HERE.txt](START-HERE.txt) first!**
+
+### Simple 2-Step Process:
+
+1. **Run:** `STEP1-Audit-Windows.ps1` (Review your current settings)
+2. **Run:** `STEP2-Optimize-Windows.ps1` (Full optimization - Recommended)
+
+Then **restart your computer**. That's it!
+
+---
+
+## 📦 What's Included
+
+### 📋 **STEP1-Audit-Windows.ps1**
+**Run this FIRST** to review your current Windows settings.
+- ✅ No changes made - just a review
+- ✅ Shows what's already optimized
+- ✅ Identifies what needs attention
+- ✅ Generates a detailed report
+- ✅ Checks 10+ categories (privacy, services, startup, etc.)
+
+### ⚡ **STEP2-Optimize-Windows.ps1** (Recommended)
+**Full optimization** - Everything you need!
+- ✅ 12 optimization categories
+- ✅ 30+ bloatware apps removed
+- ✅ Privacy & telemetry controls
+- ✅ Taskbar & UI customization
+- ✅ File Explorer optimization
+- ✅ Gaming optimizations
+- ✅ Power & performance tweaks
+- ✅ And much more!
+
+### 🔧 **STEP2-Optimize-Windows-Basic.ps1** (Alternative)
+**Basic optimization** - Just the essentials.
+- ✅ Removes bloatware apps
+- ✅ Disables startup programs
+- ✅ Optimizes visual effects
+- ✅ Cleans temporary files
+- ✅ Disables some services
+
+**Note:** Only run ONE of the STEP2 scripts (Full or Basic).
+
+## 🎯 Which Script Should I Use?
+
+| Feature | Basic Optimizer | **Ultimate Optimizer** | Review Tool |
+|---------|----------------|----------------------|-------------|
+| Remove bloatware | ✅ | ✅ | - |
+| Disable startup programs | ✅ | ✅ | - |
+| Visual effects | ✅ | ✅ | - |
+| Clean temp files | ✅ | ✅ | - |
+| Disable services | ✅ | ✅ | - |
+| Privacy & telemetry | Partial | ✅ Full | - |
+| Notifications | ❌ | ✅ | - |
+| Taskbar customization | ❌ | ✅ | - |
+| File Explorer tweaks | ❌ | ✅ | - |
+| Cortana/Bing disable | ❌ | ✅ | - |
+| Gaming optimizations | Partial | ✅ Full | - |
+| Power plan optimization | ❌ | ✅ | - |
+| Background apps | ❌ | ✅ | - |
+| Settings audit | - | - | ✅ |
+
+**Recommendation:** Use **Ultimate Optimizer** for complete optimization!
+
+## 🚀 Features (Ultimate Optimizer)
+
+### Core Features:
+- ✅ **Remove Bloatware** - Removes 30+ unnecessary apps (Xbox, Bing, Games, Office Hub, etc.)
+- ✅ **Disable Startup Programs** - Speeds up boot time
+- ✅ **Clean Temporary Files** - Frees up disk space
+- ✅ **Disable Unnecessary Services** - 14+ services including Xbox, telemetry, Superfetch
+
+### Privacy & Security:
+- ✅ **Disable Telemetry** - Stops data collection
+- ✅ **Disable Location Tracking** - Enhanced privacy
+- ✅ **Disable Activity History** - No timeline tracking
+- ✅ **Disable Advertising ID** - No personalized ads
+- ✅ **Show File Extensions** - Security best practice
+
+### Performance:
+- ✅ **Optimize Visual Effects** - Best performance mode
+- ✅ **High Performance Power Plan** - Maximum speed
+- ✅ **Disable Hibernation** - Frees 8-16 GB disk space
+- ✅ **Disable Background Apps** - Less RAM usage
+- ✅ **Disable Superfetch** - Better for SSDs
+
+### UI Customization:
+- ✅ **Clean Taskbar** - Hide search, widgets, task view, chat, Copilot
+- ✅ **Disable Notifications** - No sounds or suggestions
+- ✅ **Optimize File Explorer** - Show hidden files, extensions, no ads
+- ✅ **Disable Cortana** - No voice assistant
+- ✅ **Disable Bing Search** - Faster local search
+
+### Gaming:
+- ✅ **Disable Game DVR** - Better FPS
+- ✅ **Disable Game Bar** - No overlays
+- ✅ **Disable Xbox Services** - Free up resources
+
+### Network & Updates:
+- ✅ **Disable P2P Updates** - Save bandwidth
+- ✅ **Manual Windows Update** - Full control
 
 ## 📋 What Gets Removed
 
@@ -55,24 +149,43 @@ A comprehensive PowerShell script to remove bloatware and optimize Windows 11 fo
 
 ## 🔧 How to Use
 
-### Method 1: Simple Run (Right-click)
-1. Download `Windows-Debloat-Optimize.ps1`
-2. Right-click the file
-3. Select **"Run with PowerShell"**
+### 📍 Step 1: Audit Your System
+```powershell
+.\STEP1-Audit-Windows.ps1
+```
+- Reviews your current settings (no changes made)
+- Generates a report on your Desktop
+- Shows what needs optimization
 
-### Method 2: Run as Administrator (Recommended)
-For full functionality including service optimization:
+### ⚡ Step 2: Optimize Windows
+Choose ONE:
 
-1. Right-click the Windows Start button
+**Full Optimization (Recommended):**
+```powershell
+.\STEP2-Optimize-Windows.ps1
+```
+
+**Basic Optimization:**
+```powershell
+.\STEP2-Optimize-Windows-Basic.ps1
+```
+
+### 🔐 Running as Administrator (Recommended)
+
+For full functionality:
+
+1. Right-click the **Start button**
 2. Select **"Terminal (Admin)"** or **"PowerShell (Admin)"**
-3. Navigate to the script location:
+3. Navigate to the folder:
    ```powershell
-   cd ~\Desktop
+   cd C:\Users\Sakari\Projects\bloatware
    ```
-4. Run the script:
+4. Run the scripts:
    ```powershell
-   .\Windows-Debloat-Optimize.ps1
+   .\STEP1-Audit-Windows.ps1
+   .\STEP2-Optimize-Windows.ps1
    ```
+5. **Restart your computer**
 
 ### If You Get Execution Policy Error:
 Run this command first in PowerShell (Admin):
