@@ -65,7 +65,7 @@ $appsToRemove = @(
     '*3DViewer*',
     '*SkypeApp*',
     '*YourPhone*',
-    '*People*',
+    'Microsoft.People',
     '*OfficeHub*',
     '*Todos*',
     '*StickyNotes*',
