@@ -31,12 +31,12 @@ Write-Host "`nCreating System Restore Point..." -ForegroundColor Cyan
 
 try {
     # Enable System Restore if not already enabled
-    Enable-ComputerRestore -Drive "C:\" -ErrorAction SilentlyContinue
+    Enable-ComputerRestore -Drive 'C:\' -ErrorAction SilentlyContinue
 
     # Create restore point
     $restorePointName = "Before Advanced Process Reduction - $(Get-Date -Format 'yyyy-MM-dd HH:mm')"
     Checkpoint-Computer -Description $restorePointName -RestorePointType "MODIFY_SETTINGS" -ErrorAction Stop
-    Write-Host "[✓] Restore point created: $restorePointName" -ForegroundColor Green
+    Write-Host "[OK] Restore point created: $restorePointName" -ForegroundColor Green
     Write-Host "    You can revert changes later via System Restore" -ForegroundColor Gray
 } catch {
     Write-Host "[!] Could not create restore point: $($_.Exception.Message)" -ForegroundColor Yellow
@@ -161,7 +161,7 @@ foreach ($service in $additionalServicesToDisable) {
     }
 }
 
-Write-Host "  >> Disabled $disabledServices additional services" -ForegroundColor Cyan
+Write-Host "  Disabled $($disabledServices) additional services" -ForegroundColor Cyan
 
 # ============================================
 # STEP 2: Disable Scheduled Tasks
@@ -241,7 +241,7 @@ foreach ($task in $tasksToDisable) {
     }
 }
 
-Write-Host "  >> Disabled $disabledTasks scheduled tasks" -ForegroundColor Cyan
+Write-Host "  Disabled $($disabledTasks) scheduled tasks" -ForegroundColor Cyan
 
 # ============================================
 # STEP 3: Disable Windows Features
@@ -274,7 +274,7 @@ foreach ($feature in $featuresToDisable) {
     }
 }
 
-Write-Host "  >> Disabled $disabledFeatures Windows features" -ForegroundColor Cyan
+Write-Host "  Disabled $($disabledFeatures) Windows features" -ForegroundColor Cyan
 
 # ============================================
 # STEP 4: Additional Registry Tweaks

@@ -74,6 +74,18 @@ If you get an execution policy error:
 Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy Bypass -Force
 
 ========================================
+STEP 3: ADVANCED PROCESS REDUCTION
+========================================
+
+OPTIONAL - Only for advanced users!
+
+    STEP3-Advanced-Process-Reduction.ps1
+
+Run AFTER STEP2 if you want absolute minimum processes.
+WARNING: Very aggressive - disables many services and features.
+Printing remains enabled.
+
+========================================
 EXECUTION ORDER SUMMARY
 ========================================
 
@@ -84,7 +96,10 @@ EXECUTION ORDER SUMMARY
    OR
    Run STEP2-Optimize-Windows-Basic.ps1 (basic optimization)
 
-3. RESTART YOUR COMPUTER for changes to take effect
+3. OPTIONAL: Run STEP3-Advanced-Process-Reduction.ps1
+   (only if you want extreme optimization)
+
+4. RESTART YOUR COMPUTER for changes to take effect
 
 DO NOT run both STEP2 scripts - pick one!
 
@@ -106,6 +121,9 @@ STEP2-Optimize-Windows.ps1
 
 STEP2-Optimize-Windows-Basic.ps1
   -> Basic optimization (alternative to above)
+
+STEP3-Advanced-Process-Reduction.ps1
+  -> Aggressive process reduction (optional, run after STEP2)
 
 ========================================
 RECOMMENDED WORKFLOW

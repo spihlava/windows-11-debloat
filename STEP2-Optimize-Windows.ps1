@@ -27,12 +27,12 @@ Write-Host "`nCreating System Restore Point..." -ForegroundColor Cyan
 if ($isAdmin) {
     try {
         # Enable System Restore if not already enabled
-        Enable-ComputerRestore -Drive "C:\" -ErrorAction SilentlyContinue
+        Enable-ComputerRestore -Drive 'C:\' -ErrorAction SilentlyContinue
 
         # Create restore point
         $restorePointName = "Before Windows Optimization - $(Get-Date -Format 'yyyy-MM-dd HH:mm')"
         Checkpoint-Computer -Description $restorePointName -RestorePointType "MODIFY_SETTINGS" -ErrorAction Stop
-        Write-Host "[✓] Restore point created: $restorePointName" -ForegroundColor Green
+        Write-Host "[OK] Restore point created: $restorePointName" -ForegroundColor Green
         Write-Host "    You can revert changes later via System Restore" -ForegroundColor Gray
     } catch {
         Write-Host "[!] Could not create restore point: $($_.Exception.Message)" -ForegroundColor Yellow
@@ -97,7 +97,7 @@ foreach ($app in $appsToRemove) {
     }
 }
 
-Write-Host "  >> Removed $removedCount apps" -ForegroundColor Cyan
+Write-Host "  Removed $($removedCount) apps" -ForegroundColor Cyan
 
 # ============================================
 # STEP 2: Disable Startup Programs
@@ -129,12 +129,12 @@ foreach ($item in $startupItems) {
     } catch {}
 }
 
-Write-Host "  >> Disabled $disabledCount startup items" -ForegroundColor Cyan
+Write-Host "  Disabled $($disabledCount) startup items" -ForegroundColor Cyan
 
 # ============================================
 # STEP 3: Privacy & Telemetry Settings
 # ============================================
-Write-Host "`n[3/12] Configuring Privacy & Telemetry Settings..." -ForegroundColor Yellow
+Write-Host "`n[3/12] Configuring Privacy `& Telemetry Settings..." -ForegroundColor Yellow
 
 # Disable Telemetry
 try {
@@ -274,7 +274,7 @@ try {
 # ============================================
 # STEP 7: Disable Cortana & Search
 # ============================================
-Write-Host "`n[7/12] Disabling Cortana & Bing Search..." -ForegroundColor Yellow
+Write-Host "`n[7/12] Disabling Cortana `& Bing Search..." -ForegroundColor Yellow
 
 # Disable Cortana
 try {
@@ -382,7 +382,7 @@ if ($isAdmin) {
         } catch {}
     }
 
-    Write-Host "  >> Disabled $disabledServices services" -ForegroundColor Cyan
+    Write-Host "  Disabled $($disabledServices) services" -ForegroundColor Cyan
 } else {
     Write-Host "  [!] Skipped (requires Administrator)" -ForegroundColor Yellow
 }
@@ -397,7 +397,7 @@ try {
     $tempPath = $env:TEMP
     $tempFiles = (Get-ChildItem -Path $tempPath -Recurse -ErrorAction SilentlyContinue | Measure-Object).Count
     Remove-Item -Path "$tempPath\*" -Recurse -Force -ErrorAction SilentlyContinue
-    Write-Host "  [+] Cleaned user temp folder ($tempFiles items)" -ForegroundColor Green
+    Write-Host "  [+] Cleaned user temp folder - $($tempFiles) items" -ForegroundColor Green
 } catch {}
 
 # Clean Windows temp
@@ -405,7 +405,7 @@ try {
     $winTempPath = "C:\Windows\Temp"
     $winTempFiles = (Get-ChildItem -Path $winTempPath -Recurse -ErrorAction SilentlyContinue | Measure-Object).Count
     Remove-Item -Path "$winTempPath\*" -Recurse -Force -ErrorAction SilentlyContinue
-    Write-Host "  [+] Cleaned Windows temp folder ($winTempFiles items)" -ForegroundColor Green
+    Write-Host "  [+] Cleaned Windows temp folder - $($winTempFiles) items" -ForegroundColor Green
 } catch {}
 
 # Clear Windows Update cache
@@ -477,21 +477,21 @@ Write-Host "`n================================================" -ForegroundColor
 Write-Host "  ULTIMATE OPTIMIZATION COMPLETE!" -ForegroundColor Green
 Write-Host "================================================" -ForegroundColor Cyan
 Write-Host ""
-Write-Host "Optimizations Applied:" -ForegroundColor White
-Write-Host "  [1] Removed bloatware apps" -ForegroundColor White
-Write-Host "  [2] Disabled startup programs" -ForegroundColor White
-Write-Host "  [3] Enhanced privacy (telemetry, tracking, activity history)" -ForegroundColor White
-Write-Host "  [4] Configured notifications (disabled sounds & suggestions)" -ForegroundColor White
-Write-Host "  [5] Customized taskbar (hidden search, widgets, chat, copilot)" -ForegroundColor White
-Write-Host "  [6] Optimized File Explorer (extensions, hidden files, no ads)" -ForegroundColor White
-Write-Host "  [7] Disabled Cortana & Bing Search" -ForegroundColor White
-Write-Host "  [8] Optimized visual effects for performance" -ForegroundColor White
-Write-Host "  [9] Disabled gaming features (Game DVR, Game Bar)" -ForegroundColor White
-Write-Host "  [10] Disabled unnecessary services" -ForegroundColor White
-Write-Host "  [11] Cleaned temporary files and caches" -ForegroundColor White
-Write-Host "  [12] System optimizations (hibernation, power plan, background apps)" -ForegroundColor White
-Write-Host ""
-Write-Host "[!] IMPORTANT: Restart your computer for all changes to take effect!" -ForegroundColor Yellow
-Write-Host ""
-Write-Host "Press Enter to exit..." -ForegroundColor Cyan
+Write-Host 'Optimizations Applied:' -ForegroundColor White
+Write-Host '  [1] Removed bloatware apps' -ForegroundColor White
+Write-Host '  [2] Disabled startup programs' -ForegroundColor White
+Write-Host '  [3] Enhanced privacy (telemetry, tracking, activity history)' -ForegroundColor White
+Write-Host '  [4] Configured notifications (disabled sounds and suggestions)' -ForegroundColor White
+Write-Host '  [5] Customized taskbar (hidden search, widgets, chat, copilot)' -ForegroundColor White
+Write-Host '  [6] Optimized File Explorer (extensions, hidden files, no ads)' -ForegroundColor White
+Write-Host '  [7] Disabled Cortana and Bing Search' -ForegroundColor White
+Write-Host '  [8] Optimized visual effects for performance' -ForegroundColor White
+Write-Host '  [9] Disabled gaming features (Game DVR, Game Bar)' -ForegroundColor White
+Write-Host '  [10] Disabled unnecessary services' -ForegroundColor White
+Write-Host '  [11] Cleaned temporary files and caches' -ForegroundColor White
+Write-Host '  [12] System optimizations (hibernation, power plan, background apps)' -ForegroundColor White
+Write-Host ''
+Write-Host '[!] IMPORTANT: Restart your computer for all changes to take effect!' -ForegroundColor Yellow
+Write-Host ''
+Write-Host 'Press Enter to exit...' -ForegroundColor Cyan
 Read-Host

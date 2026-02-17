@@ -27,12 +27,12 @@ Write-Host "`nCreating System Restore Point..." -ForegroundColor Cyan
 if ($isAdmin) {
     try {
         # Enable System Restore if not already enabled
-        Enable-ComputerRestore -Drive "C:\" -ErrorAction SilentlyContinue
+        Enable-ComputerRestore -Drive 'C:\' -ErrorAction SilentlyContinue
 
         # Create restore point
         $restorePointName = "Before Windows Optimization - $(Get-Date -Format 'yyyy-MM-dd HH:mm')"
         Checkpoint-Computer -Description $restorePointName -RestorePointType "MODIFY_SETTINGS" -ErrorAction Stop
-        Write-Host "[✓] Restore point created: $restorePointName" -ForegroundColor Green
+        Write-Host "[OK] Restore point created: $restorePointName" -ForegroundColor Green
         Write-Host "    You can revert changes later via System Restore" -ForegroundColor Gray
     } catch {
         Write-Host "[!] Could not create restore point: $($_.Exception.Message)" -ForegroundColor Yellow
@@ -96,7 +96,7 @@ foreach ($app in $appsToRemove) {
     }
 }
 
-Write-Host "  >> Removed $removedCount apps" -ForegroundColor Cyan
+Write-Host "  Removed $($removedCount) apps" -ForegroundColor Cyan
 
 # ============================================
 # STEP 2: Disable Startup Programs
@@ -129,7 +129,7 @@ foreach ($item in $startupItems) {
     }
 }
 
-Write-Host "  >> Disabled $disabledCount startup items" -ForegroundColor Cyan
+Write-Host "  Disabled $($disabledCount) startup items" -ForegroundColor Cyan
 
 # ============================================
 # STEP 3: Optimize Visual Effects
@@ -172,9 +172,9 @@ try {
     $tempPath = $env:TEMP
     $tempFiles = (Get-ChildItem -Path $tempPath -Recurse -ErrorAction SilentlyContinue | Measure-Object).Count
     Remove-Item -Path "$tempPath\*" -Recurse -Force -ErrorAction SilentlyContinue
-    Write-Host "  [+] Cleaned user temp folder ($tempFiles items)" -ForegroundColor Green
+    Write-Host "  [+] Cleaned user temp folder - $($tempFiles) items" -ForegroundColor Green
 } catch {
-    Write-Host "  [-] Error cleaning user temp" -ForegroundColor Red
+    Write-Host '  [-] Error cleaning user temp' -ForegroundColor Red
 }
 
 # Clean Windows temp
@@ -182,9 +182,9 @@ try {
     $winTempPath = "C:\Windows\Temp"
     $winTempFiles = (Get-ChildItem -Path $winTempPath -Recurse -ErrorAction SilentlyContinue | Measure-Object).Count
     Remove-Item -Path "$winTempPath\*" -Recurse -Force -ErrorAction SilentlyContinue
-    Write-Host "  [+] Cleaned Windows temp folder ($winTempFiles items)" -ForegroundColor Green
+    Write-Host "  [+] Cleaned Windows temp folder - $($winTempFiles) items" -ForegroundColor Green
 } catch {
-    Write-Host "  [-] Error cleaning Windows temp" -ForegroundColor Red
+    Write-Host '  [-] Error cleaning Windows temp' -ForegroundColor Red
 }
 
 # Clear Windows Update cache
@@ -242,7 +242,7 @@ if ($isAdmin) {
         }
     }
 
-    Write-Host "  >> Disabled $disabledServices services" -ForegroundColor Cyan
+    Write-Host "  Disabled $($disabledServices) services" -ForegroundColor Cyan
 } else {
     Write-Host "  [!] Skipped (requires Administrator privileges)" -ForegroundColor Yellow
 }
@@ -309,7 +309,7 @@ Write-Host "  - Optimized visual effects for performance" -ForegroundColor White
 Write-Host "  - Cleaned temporary files and caches" -ForegroundColor White
 Write-Host "  - Disabled unnecessary Windows services" -ForegroundColor White
 Write-Host ""
-Write-Host "[!] IMPORTANT: Please restart your computer for all changes to take effect!" -ForegroundColor Yellow
+Write-Host '[!] IMPORTANT: Please restart your computer for all changes to take effect!' -ForegroundColor Yellow
 Write-Host ""
 Write-Host "Press Enter to exit..." -ForegroundColor Cyan
 Read-Host

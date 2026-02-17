@@ -295,6 +295,7 @@ If you need to undo any changes:
 - ✅ Windows 11 Pro (Build 26100)
 - ✅ Windows 11 Home
 - ✅ Clean installs and upgraded systems
+- ✅ Windows PowerShell 5.x and PowerShell 7+
 
 ## 🛡️ Safety
 
