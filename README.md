@@ -188,10 +188,25 @@ For full functionality:
 5. **Restart your computer**
 
 ### If You Get Execution Policy Error:
-Run this command first in PowerShell (Admin):
+
+**This is common on new Windows installations.** PowerShell blocks script execution by default.
+
+**From PowerShell (Admin):**
 ```powershell
-Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy Bypass -Force
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
 ```
+
+**From bash/Git Bash:**
+```bash
+powershell.exe -Command "Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser"
+```
+
+**Execution Policy Options:**
+- `RemoteSigned` (Recommended) - Allows local scripts, requires signature for downloaded scripts
+- `Bypass` - No restrictions (use if RemoteSigned doesn't work)
+- `Unrestricted` - Prompts before running unsigned downloaded scripts
+
+**Note:** `-Scope CurrentUser` means no admin privileges required and only affects your user account.
 
 ## ⚡ Performance Improvements
 
