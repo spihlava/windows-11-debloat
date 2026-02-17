@@ -6,10 +6,11 @@ Comprehensive PowerShell scripts to remove bloatware and optimize Windows 11 for
 
 **New here? Read [START-HERE.txt](START-HERE.txt) first!**
 
-### Simple 2-Step Process:
+### Simple 2-3 Step Process:
 
 1. **Run:** `STEP1-Audit-Windows.ps1` (Review your current settings)
 2. **Run:** `STEP2-Optimize-Windows.ps1` (Full optimization - Recommended)
+3. **Optional:** `STEP3-Advanced-Process-Reduction.ps1` (AGGRESSIVE - Minimum processes)
 
 Then **restart your computer**. That's it!
 
@@ -46,26 +47,45 @@ Then **restart your computer**. That's it!
 
 **Note:** Only run ONE of the STEP2 scripts (Full or Basic).
 
+### ⚡ **STEP3-Advanced-Process-Reduction.ps1** (Optional - AGGRESSIVE)
+**Maximum process reduction** - For advanced users who want absolute minimum processes.
+- ⚠️ **VERY AGGRESSIVE** - Disables many services and features
+- ✅ Disables 50+ additional services (print, bluetooth, remote access, updates, etc.)
+- ✅ Disables 25+ scheduled tasks (telemetry, diagnostics, maintenance)
+- ✅ Disables Windows features (Media Player, Fax, SMB1, IE11)
+- ✅ Advanced registry tweaks for background apps
+- ✅ Targets reducing process count to minimum
+- ⚠️ May affect some functionality - only use if you know what you need
+
+**Run this AFTER STEP2 and ONLY if you want extreme optimization.**
+**Target: Reduce from 270+ processes to 150-180 processes.**
+
 ## 🎯 Which Script Should I Use?
 
-| Feature | Basic Optimizer | **Ultimate Optimizer** | Review Tool |
-|---------|----------------|----------------------|-------------|
-| Remove bloatware | ✅ | ✅ | - |
-| Disable startup programs | ✅ | ✅ | - |
-| Visual effects | ✅ | ✅ | - |
-| Clean temp files | ✅ | ✅ | - |
-| Disable services | ✅ | ✅ | - |
-| Privacy & telemetry | Partial | ✅ Full | - |
-| Notifications | ❌ | ✅ | - |
-| Taskbar customization | ❌ | ✅ | - |
-| File Explorer tweaks | ❌ | ✅ | - |
-| Cortana/Bing disable | ❌ | ✅ | - |
-| Gaming optimizations | Partial | ✅ Full | - |
-| Power plan optimization | ❌ | ✅ | - |
-| Background apps | ❌ | ✅ | - |
-| Settings audit | - | - | ✅ |
+| Feature | Basic | **Ultimate** | **Advanced** | Audit |
+|---------|-------|------------|------------|-------|
+| Remove bloatware | ✅ | ✅ | - | - |
+| Disable startup programs | ✅ | ✅ | - | - |
+| Visual effects | ✅ | ✅ | - | - |
+| Clean temp files | ✅ | ✅ | - | - |
+| Disable services (14) | ✅ | ✅ | - | - |
+| Privacy & telemetry | Partial | ✅ Full | ✅ | - |
+| Notifications | ❌ | ✅ | ✅ | - |
+| Taskbar customization | ❌ | ✅ | - | - |
+| File Explorer tweaks | ❌ | ✅ | - | - |
+| Cortana/Bing disable | ❌ | ✅ | - | - |
+| Gaming optimizations | Partial | ✅ Full | ✅ | - |
+| Power plan optimization | ❌ | ✅ | - | - |
+| Background apps | ❌ | ✅ | ✅ Full | - |
+| Additional services (50+) | ❌ | ❌ | ✅ | - |
+| Scheduled tasks (25+) | ❌ | ❌ | ✅ | - |
+| Windows features | ❌ | ❌ | ✅ | - |
+| Process reduction | ❌ | ❌ | ✅ Max | - |
+| Settings audit | - | - | - | ✅ |
 
-**Recommendation:** Use **Ultimate Optimizer** for complete optimization!
+**Recommendations:**
+- **Most users:** STEP2 Ultimate Optimizer
+- **Maximum performance:** STEP2 + STEP3 Advanced (warning: very aggressive!)
 
 ## 🚀 Features (Ultimate Optimizer)
 
@@ -169,6 +189,16 @@ Choose ONE:
 ```powershell
 .\STEP2-Optimize-Windows-Basic.ps1
 ```
+
+### 🚀 Step 3: Advanced Process Reduction (Optional)
+**Only for advanced users wanting minimum processes:**
+```powershell
+.\STEP3-Advanced-Process-Reduction.ps1
+```
+- Run AFTER Step 2
+- Very aggressive optimization
+- Targets 150-180 process count
+- May disable features you use
 
 ### 🔐 Running as Administrator (Recommended)
 
