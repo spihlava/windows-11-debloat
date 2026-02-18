@@ -101,15 +101,7 @@ try {
 # ============================================
 Write-Host "`n[2/15] Configuring Camera & Microphone Privacy..." -ForegroundColor Yellow
 
-# Disable camera access globally
-try {
-    if ($isAdmin) {
-        $cameraPath = "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\webcam"
-        if (-not (Test-Path $cameraPath)) { New-Item -Path $cameraPath -Force | Out-Null }
-        Set-ItemProperty -Path $cameraPath -Name "Value" -Value "Deny" -Type String -Force
-        Write-Host "  [+] Disabled global camera access" -ForegroundColor Green
-    }
-} catch {}
+# Camera access is left enabled - use Disable-Camera.ps1 to disable it separately
 
 # Disable microphone access globally
 try {
@@ -619,7 +611,7 @@ Write-Host "================================================" -ForegroundColor C
 Write-Host ""
 Write-Host 'Privacy Settings Applied:' -ForegroundColor White
 Write-Host '  [1]  Complete notification disabling (toast, badges, lock screen)' -ForegroundColor White
-Write-Host '  [2]  Camera & microphone global access denied' -ForegroundColor White
+Write-Host '  [2]  Microphone global access denied (camera left enabled - see Disable-Camera.ps1)' -ForegroundColor White
 Write-Host '  [3]  App permissions restricted (contacts, calendar, email, etc.)' -ForegroundColor White
 Write-Host '  [4]  Inking & typing data collection disabled' -ForegroundColor White
 Write-Host '  [5]  Tailored experiences disabled' -ForegroundColor White
@@ -637,8 +629,8 @@ Write-Host '  [16] Start Menu & taskbar tracking disabled' -ForegroundColor Whit
 Write-Host '  [17] Network-level privacy configured' -ForegroundColor White
 Write-Host ''
 Write-Host 'IMPORTANT NOTES:' -ForegroundColor Yellow
-Write-Host '  - Camera and microphone are now globally disabled' -ForegroundColor Yellow
-Write-Host '  - You may need to re-enable them for specific apps if needed' -ForegroundColor Yellow
+Write-Host '  - Microphone is globally disabled' -ForegroundColor Yellow
+Write-Host '  - Camera is left enabled - run Disable-Camera.ps1 to disable it' -ForegroundColor Yellow
 Write-Host '  - SmartScreen is disabled - be cautious with downloads' -ForegroundColor Yellow
 Write-Host '  - OneDrive integration is removed - files will not sync' -ForegroundColor Yellow
 Write-Host ''
