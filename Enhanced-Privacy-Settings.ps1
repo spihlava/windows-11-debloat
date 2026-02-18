@@ -101,17 +101,10 @@ try {
 # ============================================
 Write-Host "`n[2/15] Configuring Camera & Microphone Privacy..." -ForegroundColor Yellow
 
-# Camera access is left enabled - use Disable-Camera.ps1 to disable it separately
-
-# Disable microphone access globally
-try {
-    if ($isAdmin) {
-        $micPath = "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\microphone"
-        if (-not (Test-Path $micPath)) { New-Item -Path $micPath -Force | Out-Null }
-        Set-ItemProperty -Path $micPath -Name "Value" -Value "Deny" -Type String -Force
-        Write-Host "  [+] Disabled global microphone access" -ForegroundColor Green
-    }
-} catch {}
+# Camera and microphone access are left enabled - use dedicated scripts to disable them separately:
+#   Disable-Camera.ps1       - disable/enable camera
+#   Disable-Microphone.ps1   - disable/enable microphone
+Write-Host "  [i] Camera and microphone left enabled - use Disable-Camera.ps1 / Disable-Microphone.ps1" -ForegroundColor Cyan
 
 # ============================================
 # STEP 3: App Permissions
@@ -611,7 +604,7 @@ Write-Host "================================================" -ForegroundColor C
 Write-Host ""
 Write-Host 'Privacy Settings Applied:' -ForegroundColor White
 Write-Host '  [1]  Complete notification disabling (toast, badges, lock screen)' -ForegroundColor White
-Write-Host '  [2]  Microphone global access denied (camera left enabled - see Disable-Camera.ps1)' -ForegroundColor White
+Write-Host '  [2]  Camera & microphone left enabled (use Disable-Camera.ps1 / Disable-Microphone.ps1)' -ForegroundColor White
 Write-Host '  [3]  App permissions restricted (contacts, calendar, email, etc.)' -ForegroundColor White
 Write-Host '  [4]  Inking & typing data collection disabled' -ForegroundColor White
 Write-Host '  [5]  Tailored experiences disabled' -ForegroundColor White
@@ -629,8 +622,8 @@ Write-Host '  [16] Start Menu & taskbar tracking disabled' -ForegroundColor Whit
 Write-Host '  [17] Network-level privacy configured' -ForegroundColor White
 Write-Host ''
 Write-Host 'IMPORTANT NOTES:' -ForegroundColor Yellow
-Write-Host '  - Microphone is globally disabled' -ForegroundColor Yellow
-Write-Host '  - Camera is left enabled - run Disable-Camera.ps1 to disable it' -ForegroundColor Yellow
+Write-Host '  - Camera and microphone are left enabled' -ForegroundColor Yellow
+Write-Host '  - Run Disable-Camera.ps1 or Disable-Microphone.ps1 to disable them' -ForegroundColor Yellow
 Write-Host '  - SmartScreen is disabled - be cautious with downloads' -ForegroundColor Yellow
 Write-Host '  - OneDrive integration is removed - files will not sync' -ForegroundColor Yellow
 Write-Host ''

@@ -67,7 +67,8 @@ Then **restart your computer**. That's it!
 **Comprehensive privacy hardening** - Goes beyond basic privacy settings.
 - 🔒 **17 privacy categories** covered
 - ✅ Complete notification disabling (toast, badges, lock screen)
-- ✅ Camera & microphone globally disabled
+- ✅ App permissions restricted (contacts, calendar, email, files, etc.)
+- ✅ Camera & microphone left enabled (use dedicated scripts to disable)
 - ✅ App permissions restricted (contacts, calendar, email, files, etc.)
 - ✅ Inking & typing data collection stopped
 - ✅ Windows Spotlight & lock screen tracking disabled
@@ -80,9 +81,30 @@ Then **restart your computer**. That's it!
 - ✅ Microsoft Edge privacy hardened
 - ✅ Recent files & Jump Lists cleaned
 - ✅ Start Menu & taskbar tracking disabled
-- ⚠️ **Note:** Camera/microphone globally disabled - re-enable per-app if needed
+- ℹ️ **Note:** Camera/microphone left enabled - use `Disable-Camera.ps1` / `Disable-Microphone.ps1` to disable
 
 **Run this AFTER STEP2 or STEP3 for maximum privacy.**
+
+### 📷 **Disable-Camera.ps1** (Utility)
+**Toggle camera on or off system-wide** - Controls global camera access via registry and the Camera Frame Server service.
+- ✅ Disables/enables camera globally (all apps)
+- ✅ Stops/starts the Camera Frame Server service
+- ✅ `-Enable` switch to re-enable
+
+```powershell
+.\Disable-Camera.ps1           # Disable camera
+.\Disable-Camera.ps1 -Enable   # Re-enable camera
+```
+
+### 🎙️ **Disable-Microphone.ps1** (Utility)
+**Toggle microphone on or off system-wide** - Controls global microphone access via registry.
+- ✅ Disables/enables microphone globally (all apps)
+- ✅ `-Enable` switch to re-enable
+
+```powershell
+.\Disable-Microphone.ps1           # Disable microphone
+.\Disable-Microphone.ps1 -Enable   # Re-enable microphone
+```
 
 ### 🔄 **Restore-OneDrive.ps1** (Utility)
 **Restore OneDrive Personal** - Reverses OneDrive removal from Enhanced-Privacy-Settings.
@@ -126,7 +148,7 @@ Then **restart your computer**. That's it!
 | Scheduled tasks (25+) | ❌ | ❌ | ✅ | - | - |
 | Windows features | ❌ | ❌ | ✅ | - | - |
 | Process reduction | ❌ | ❌ | ✅ Max | - | - |
-| Camera/Mic permissions | ❌ | ❌ | - | ✅ Denied | - |
+| Camera/Mic permissions | ❌ | ❌ | - | Separate scripts | - |
 | App permissions | ❌ | ❌ | - | ✅ Restricted | - |
 | OneDrive Personal removal | ❌ | ❌ | - | ✅ | - |
 | SmartScreen disable | ❌ | ❌ | - | ✅ | - |
@@ -265,6 +287,15 @@ Choose ONE:
 - Removes OneDrive Personal (Business untouched)
 - Restricts app permissions globally
 - Camera/microphone disabled (can re-enable per-app)
+
+### 📷 Disable/Enable Camera or Microphone
+```powershell
+.\Disable-Camera.ps1 -Enable       # Re-enable camera
+.\Disable-Camera.ps1               # Disable camera
+
+.\Disable-Microphone.ps1 -Enable   # Re-enable microphone
+.\Disable-Microphone.ps1           # Disable microphone
+```
 
 ### 🔄 Restore OneDrive (If Needed)
 **If you want OneDrive Personal back:**
