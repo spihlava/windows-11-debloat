@@ -139,13 +139,25 @@ Defender itself, VBS, and memory integrity stay on.
 
 ```ini
 [wsl2]
-memory=24GB              # default is 50% of host RAM; raise it if WSL is where you work
-processors=20            # hold a few cores back so Windows stays responsive under load
+memory=24GB               # default is 50% of host RAM; raise it if WSL is where you work
+processors=20             # hold a few cores back so Windows stays responsive under load
+
+[experimental]
 autoMemoryReclaim=gradual # return freed guest pages instead of holding the high-water mark
-sparseVhd=true           # auto-shrink virtual disks as data is freed
+sparseVhd=true            # auto-shrink virtual disks as data is freed
 ```
 
-Two things people get wrong here:
+**The section matters.** `autoMemoryReclaim` and `sparseVhd` are still `[experimental]`
+— they never graduated to `[wsl2]` the way `networkingMode`, `dnsTunneling`, `firewall`,
+and `autoProxy` did. Put them under `[wsl2]` and WSL prints `Unknown key 'wsl2.sparseVhd'`
+and silently ignores them, which is easy to miss because the keys it *does* recognise in
+the same file still apply. Verify after `wsl --shutdown`:
+
+```
+wsl echo ok        # any "Unknown key" warning names the exact line number
+```
+
+Two more things people get wrong here:
 
 - **These limits are VM-wide, not per-distro.** Docker Desktop's WSL2 backend shares one
   VM with your distros. Containers spend the same `memory=` budget.
@@ -175,7 +187,49 @@ it several times over.
 Do this while no toolchain is running. A cache yanked out from under a live `npm exec` or
 `uv run` breaks it.
 
-### 4. Startup entries and scheduled tasks
+### 4. WSL's 10-second boot deadline vs. the `/tmp` wipe
+
+If a WSL session logs in with `Failed to start the systemd user session`, check boot time
+before assuming anything is broken:
+
+```bash
+systemd-analyze              # userspace total
+systemd-analyze blame | head # what ate it
+systemctl --failed           # usually empty - it's slow, not broken
+```
+
+WSL gives `/sbin/init` **10 seconds**, then gives up on creating the user session:
+
+```
+/sbin/init failed to start within 10000ms
+CreateLoginSession: Timed out waiting for user session for uid=1000
+```
+
+systemd itself comes up fine seconds later, which is why the box looks healthy while
+`systemctl --user` still reports `Failed to connect to bus`.
+
+A common cause on a dev box is the shipped tmpfiles rule `D /tmp 1777 root root 30d`. The
+capital `D` means *delete everything in `/tmp` at every boot*. Build temp dirs, test
+fixtures, and agent scratchpads accumulate there across long uptimes, and the unlink pass
+runs synchronously during boot. Tens of GB of small files takes tens of seconds and blows
+the deadline. It presents as intermittent, because it scales with how long the previous
+session ran.
+
+Fix — override the boot wipe, keep the age-based cleanup:
+
+```bash
+# lowercase d = create if missing, do NOT wipe contents at boot
+echo 'd /tmp 1777 root root 7d' | sudo tee /etc/tmpfiles.d/tmp.conf
+```
+
+`systemd-tmpfiles-clean.timer` still removes files untouched for 7 days, asynchronously,
+off the boot path. Confirm it's running with `systemctl is-active systemd-tmpfiles-clean.timer`.
+
+Check the shipped file first — if `/usr/lib/tmpfiles.d/tmp.conf` holds more than the one
+`/tmp` line, copy it and edit that line rather than replacing the file, since a
+same-named file in `/etc/tmpfiles.d/` shadows the whole thing.
+
+### 5. Startup entries and scheduled tasks
 
 Worth removing on most dev boxes:
 
