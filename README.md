@@ -217,7 +217,66 @@ it several times over.
 Do this while no toolchain is running. A cache yanked out from under a live `npm exec` or
 `uv run` breaks it.
 
-### 4. WSL's 10-second boot deadline vs. the `/tmp` wipe
+### 4. Pin bare-metal mounts with `--name`, or the path is a disk number
+
+If you attach a real partition with `wsl --mount`, WSL derives the mount point from the
+**disk number**:
+
+```
+wsl --mount "\\.\PHYSICALDRIVE3" --partition 1     ->  /mnt/wsl/PHYSICALDRIVE3p1
+```
+
+Windows renumbers disks. Identical drives swap order across reboots, and adding an NVMe
+shifts everything after it. When that happens the disk still attaches — it just attaches
+somewhere else, and every symlink into it dangles **silently**. Package caches are the
+dangerous case: `uv` and `pip` find their configured cache directory missing, create it,
+and start rebuilding on whatever filesystem the path now resolves to. No error, no warning,
+and the tuning you did quietly undoes itself.
+
+Resolving the disk by identity is necessary but **not sufficient**:
+
+```powershell
+# robust against renumbering for FINDING the disk...
+$n = (Get-Disk | Where-Object UniqueId -eq $id).Number
+# ...but the mount point is still named after $n
+wsl.exe --mount "\\.\PHYSICALDRIVE$n" --partition 1
+```
+
+Add `--name` so the path is yours, not the enumerator's:
+
+```powershell
+wsl.exe --mount "\\.\PHYSICALDRIVE$n" --partition 1 --name projects   # -> /mnt/wsl/projects
+```
+
+Check what you actually have:
+
+```bash
+grep /mnt/wsl /proc/mounts        # a PHYSICALDRIVE<n> path means you are exposed
+ls -ld ~/.cache/uv ~/.npm         # -d, otherwise ls follows the symlink and looks fine
+df -h --output=source,target ~/.cache/uv   # the real test: which device backs it
+```
+
+**Renaming an existing mount is not free.** Python virtualenvs embed absolute paths in
+console-script shebangs and in `activate`, so they break when the path moves:
+
+```bash
+# count first, with the real binary - a gitignore-aware grep wrapper will skip .venv
+# and tell you there is nothing to do
+/usr/bin/grep -rlI '/mnt/wsl/PHYSICALDRIVE3p1' /mnt/wsl/PHYSICALDRIVE3p1/*/.venv | wc -l
+/usr/bin/grep -rlI 'OLD_PATH' PATHS | tee ~/rewrite.txt | xargs sed -i 's|OLD_PATH|NEW_PATH|g'
+```
+
+What does *not* need rewriting: `pyvenv.cfg` (its `home` points at the interpreter, not the
+project), `.venv/bin/python` (a real binary, not a shebang wrapper), and `__pycache__/*.pyc`
+— those embed the path only for tracebacks and regenerate on demand. Leave logs alone too;
+rewriting them falsifies a record. Stale entries in a package cache are harmless, causing a
+cache miss rather than a failure.
+
+Also: you cannot unmount a disk you are standing on. Check `/proc/*/cwd` for holders before
+reaching for `wsl --shutdown` — an editor, a shell, or an agent with its working directory
+on that disk is enough to make the detach fail with `Resource device`.
+
+### 5. WSL's 10-second boot deadline vs. the `/tmp` wipe
 
 If a WSL session logs in with `Failed to start the systemd user session`, check boot time
 before assuming anything is broken:
@@ -259,7 +318,7 @@ Check the shipped file first — if `/usr/lib/tmpfiles.d/tmp.conf` holds more th
 `/tmp` line, copy it and edit that line rather than replacing the file, since a
 same-named file in `/etc/tmpfiles.d/` shadows the whole thing.
 
-### 5. Startup entries and scheduled tasks
+### 6. Startup entries and scheduled tasks
 
 Worth removing on most dev boxes:
 

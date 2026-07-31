@@ -3,13 +3,13 @@
 # bare-metal /dev/sde1 passthrough. Run AFTER the reboot, BEFORE the --set-sparse step
 # (freeing the blocks first is what gives sparse something to reclaim).
 #
-#   bash /mnt/wsl/PHYSICALDRIVE3p1/windows-11-debloat/post-reboot-wsl-tune.sh
+#   bash /mnt/wsl/projects/windows-11-debloat/post-reboot-wsl-tune.sh
 set -euo pipefail
 
-DEST=/mnt/wsl/PHYSICALDRIVE3p1/caches
+DEST=/mnt/wsl/projects/caches
 
-mountpoint -q /mnt/wsl/PHYSICALDRIVE3p1 || {
-  echo "ERROR: /mnt/wsl/PHYSICALDRIVE3p1 not mounted. Check the 'WSL Mount Projects Disk' task ran." >&2
+mountpoint -q /mnt/wsl/projects || {
+  echo "ERROR: /mnt/wsl/projects not mounted. Check the 'WSL Mount Projects Disk' task ran." >&2
   exit 1
 }
 
@@ -49,5 +49,5 @@ fi
 echo
 echo "done. verify:"
 echo "  du -sh $DEST/*"
-echo "  df -h / /mnt/wsl/PHYSICALDRIVE3p1"
+echo "  df -h / /mnt/wsl/projects"
 echo "then run the --set-sparse step from Windows (see summary)."
