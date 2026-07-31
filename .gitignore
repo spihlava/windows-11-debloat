@@ -1,0 +1,5 @@
+# Machine-specific audit output: hostnames, SIDs, GUIDs, volume layout, paths.
+LOCAL-NOTES.md
+
+# Registry exports and Defender exclusion dumps produced by tune-elevated.ps1.
+backups/
