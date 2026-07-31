@@ -161,16 +161,46 @@ Two more things people get wrong here:
 
 - **These limits are VM-wide, not per-distro.** Docker Desktop's WSL2 backend shares one
   VM with your distros. Containers spend the same `memory=` budget.
-- **`sparseVhd` only applies to newly created disks.** An existing VHDX needs a one-off
-  conversion, with the distro stopped:
+- **`sparseVhd` is gated in current WSL builds — expect it to do nothing.** On WSL 2.7.10
+  the one-off conversion for an existing disk refuses outright:
 
-  ```powershell
-  wsl --terminate <distro>
+  ```
   wsl --manage <distro> --set-sparse true
+  Conversion in progress, this may take a few minutes.
+  Sparse VHD support is currently disabled due to potential data corruption.
+  To force a distribution to use a sparse VHD, please run:
+  wsl.exe --manage <DistributionName> --set-sparse true --allow-unsafe
+  Error code: Wsl/Service/E_INVALIDARG
   ```
 
-  Corollary: set `sparseVhd=true` *before* installing Docker Desktop and its data disk is
-  created sparse from the start.
+  **Do not pass `--allow-unsafe`.** Microsoft disabled this because of a live
+  data-corruption bug; the flag is the override, and the disk in question holds your entire
+  distro. Reclaiming disk slack is not worth that trade. The `sparseVhd=true` key is still
+  worth leaving in `.wslconfig` — it costs nothing and takes effect if the gate is lifted —
+  but assume it is inert, including for disks created later such as Docker Desktop's.
+  Verify rather than assume:
+
+  ```powershell
+  fsutil sparse queryflag "$env:LOCALAPPDATA\wsl\*\ext4.vhdx"
+  ```
+
+To reclaim slack without sparse support, compact the VHDX offline instead. `Optimize-VHD`
+needs the Hyper-V module, which you should not install just for this; `diskpart` does it
+without Hyper-V. Run `fstrim -av` inside the distro first, then with WSL shut down:
+
+```
+diskpart
+  select vdisk file="C:\Users\<you>\AppData\Local\wsl\{GUID}\ext4.vhdx"
+  attach vdisk readonly
+  compact vdisk
+  detach vdisk
+  exit
+```
+
+Worth being honest about the payoff: this reclaims free space *inside* the virtual disk
+back to the host. If the host volume has hundreds of GB free, it buys nothing measurable.
+The reason to care about disk growth is to stop it being unbounded, and moving the package
+caches off the VHDX already does that.
 
 Changes to `.wslconfig` require `wsl --shutdown` (or a reboot) to take effect.
 
